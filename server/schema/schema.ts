@@ -75,26 +75,6 @@ const RootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
-    updateClient: {
-      type: ClientType,
-      args: {
-        id: { type: GraphQLNonNull(GraphQLID) },
-        name: { type: GraphQLString },
-        email: { type: GraphQLString },
-        phone: { type: GraphQLString },
-      },
-      resolve(parent, args) {
-        return Client.findByIdAndUpdate(
-          args.id,
-          {
-            name: args.name,
-            email: args.email,
-            phone: args.phone,
-          },
-          { new: true }
-        );
-      },
-    },
     addClient: {
       type: ClientType,
       args: {
@@ -109,6 +89,18 @@ const mutation = new GraphQLObjectType({
           phone: args.phone,
         });
         return client.save();
+      },
+    },
+    updateClient: {
+      type: ClientType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        phone: { type: GraphQLString },
+      },
+      resolve(parent, args) {
+        return Client.findByIdAndUpdate(args.id, { $set: args }, { new: true });
       },
     },
     deleteClient: {
@@ -153,18 +145,22 @@ const mutation = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLID) },
         name: { type: GraphQLString },
         description: { type: GraphQLString },
-        status: { type: GraphQLString },
+        status: {
+          type: new GraphQLEnumType({
+            name: "ProjectStatusUpdate",
+            values: {
+              NOT_STARTED: { value: "Not Started" },
+              IN_PROGRESS: { value: "In Progress" },
+              COMPLETED: { value: "Completed" },
+            },
+          }),
+        },
         clientId: { type: GraphQLID },
       },
       resolve(parent, args) {
         return Project.findByIdAndUpdate(
           args.id,
-          {
-            name: args.name,
-            description: args.description,
-            status: args.status,
-            clientId: args.clientId,
-          },
+          { $set: args },
           { new: true }
         );
       },
