@@ -11,8 +11,8 @@ const ProjectSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
     enum: ["Not Started", "In Progress", "Completed"],
+    required: true,
   },
   clientId: {
     type: mongoose.Schema.Types.ObjectId,
