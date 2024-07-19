@@ -106,8 +106,7 @@ const mutation = new GraphQLObjectType({
     deleteClient: {
       type: ClientType,
       args: { id: { type: GraphQLNonNull(GraphQLID) } },
-      async resolve(parent, args, context) {
-        await context.updateProject({ clientId: args.id }, { clientId: null });
+      async resolve(parent, args, context, info) {
         return Client.findByIdAndDelete(args.id);
       },
     },
