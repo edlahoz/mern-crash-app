@@ -15,8 +15,8 @@ export default function CreateClient() {
     variables: { ...values },
   });
 
-  function createClient() {
-    addClient();
+  async function createClient() {
+    const newClient = await addClient();
     resetForm();
     setIsClientOpen(false);
   }

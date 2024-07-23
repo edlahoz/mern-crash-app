@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ApolloWrapper } from "./ApolloProvider";
+import Header from "./components/Header";
+import Toolbar from "./components/Toolbar";
+import Providers from "./lib/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ApolloWrapper>{children}</ApolloWrapper>
+        <Providers>
+          <Header title="Welcome to Next.js" logo="/next.svg" />
+          <Toolbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

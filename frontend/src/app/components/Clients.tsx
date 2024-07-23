@@ -1,5 +1,5 @@
 import { query } from "@/app/ApolloClientRSC";
-import { Client } from "@/app/types";
+import { Client } from "@/app/data/types";
 import { GET_CLIENTS } from "@/app/data/queries/clients";
 import ClientsContainer from "@/app/components/ClientsContainer";
 
@@ -8,7 +8,6 @@ export default async function Clients() {
     query: GET_CLIENTS,
     fetchPolicy: "no-cache",
   });
-  console.log(data);
 
   if (error) {
     return <p>Error: {error.message}</p>;

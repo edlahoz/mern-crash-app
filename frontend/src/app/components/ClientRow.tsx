@@ -2,11 +2,11 @@
 import Modal from "@/app/components/Modal";
 import { useState } from "react";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import { Client } from "@/app/types";
+import { Client } from "@/app/data/types";
 import { useMutation } from "@apollo/client";
 import { DELETE_CLIENT } from "../data/mutations/clients";
 import { GET_CLIENTS } from "../data/queries/clients";
-import UpdateClient from "./UpdateClient";
+import ClientUpdate from "./ClientUpdate";
 
 type ClientRowProps = {
   client: Client;
@@ -30,7 +30,7 @@ export default function ClientRow({ client, onClientDeleted }: ClientRowProps) {
     <>
       <tr key={client.id}>
         <td className="">
-          <UpdateClient client={client} />
+          <ClientUpdate client={client} />
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

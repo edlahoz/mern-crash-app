@@ -3,14 +3,14 @@ import { UPDATE_CLIENT } from "../data/mutations/clients";
 import { useMutation } from "@apollo/client";
 import Modal from "./Modal";
 import useForm from "../hooks/useForm";
-import { Client } from "../types";
+import { Client } from "@/app/data/types";
 import { PencilIcon } from "@heroicons/react/20/solid";
 
 type UpdateClientProps = {
   client: Client;
 };
 
-export default function UpdateClient({ client }: UpdateClientProps) {
+export default function ClientUpdate({ client }: UpdateClientProps) {
   const [isClientOpen, setIsClientOpen] = useState(false);
   const { values, handleChange } = useForm(client);
   const [updateClient] = useMutation(UPDATE_CLIENT, {

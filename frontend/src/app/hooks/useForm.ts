@@ -1,9 +1,11 @@
 import { useState, ChangeEvent } from "react";
 
-export default function useForm(initialValues: Record<string, string>) {
+export default function useForm<Type>(initialValues: Type) {
   const [values, setValues] = useState(initialValues);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setValues((prev) => ({
       ...prev,
@@ -17,5 +19,6 @@ export default function useForm(initialValues: Record<string, string>) {
     values,
     handleChange,
     resetForm,
+    setValues,
   };
 }

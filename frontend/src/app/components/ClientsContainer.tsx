@@ -1,17 +1,23 @@
 "use client";
-import { Client } from "@/app/types";
+import { Client } from "@/app/data/types";
 import { GET_CLIENTS } from "@/app/data/queries/clients";
 import ClientRow from "./ClientRow";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useApolloClient } from "@apollo/client";
+import { useRecoilState } from "recoil";
+import { clientsState } from "@/app/data/state";
 
 type ClientsContainerProps = {
   clients: Client[];
 };
 
 export default function ClientsContainer({ clients }: ClientsContainerProps) {
-  const [clientData, setClientData] = useState<Client[]>(clients);
+  const [clientData, setClientData] = useRecoilState(clientsState.atom);
   const client = useApolloClient();
+
+  useEffect(() => {
+    setClientData(clients);
+  }, []);
 
   const refetchClients = async () => {
     const { data } = await client.query<{ clients: Client[] }>({
@@ -24,7 +30,7 @@ export default function ClientsContainer({ clients }: ClientsContainerProps) {
   };
 
   return (
-    <section className="p-4">
+    <>
       <h1 className="text-2xl font-bold mb-4">Clients</h1>
       <table className="table w-full">
         <thead>
@@ -51,6 +57,6 @@ export default function ClientsContainer({ clients }: ClientsContainerProps) {
           ))}
         </tbody>
       </table>
-    </section>
+    </>
   );
 }
