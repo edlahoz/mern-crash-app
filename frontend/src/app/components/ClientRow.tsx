@@ -10,14 +10,12 @@ import ClientUpdate from "./ClientUpdate";
 
 type ClientRowProps = {
   client: Client;
-  onClientDeleted: () => void;
 };
 
-export default function ClientRow({ client, onClientDeleted }: ClientRowProps) {
+export default function ClientRow({ client }: ClientRowProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteClient] = useMutation(DELETE_CLIENT, {
     variables: { id: client.id },
-    onCompleted: onClientDeleted,
     refetchQueries: [GET_CLIENTS],
   });
 

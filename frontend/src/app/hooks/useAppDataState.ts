@@ -22,7 +22,9 @@ export function useAppDataState<RecoilType>(
       }
     };
 
-    fetchData();
+    if (!initialData) {
+      fetchData();
+    }
   }, []);
 
   if (initialData) {

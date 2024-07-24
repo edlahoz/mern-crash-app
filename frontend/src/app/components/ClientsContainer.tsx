@@ -1,33 +1,15 @@
 "use client";
 import { Client } from "@/app/data/types";
-import { GET_CLIENTS } from "@/app/data/queries/clients";
 import ClientRow from "./ClientRow";
-import { useEffect } from "react";
-import { useApolloClient } from "@apollo/client";
-import { useRecoilState } from "recoil";
 import { clientsState } from "@/app/data/state";
+import { useAppDataState } from "../hooks/useAppDataState";
 
 type ClientsContainerProps = {
   clients: Client[];
 };
 
 export default function ClientsContainer({ clients }: ClientsContainerProps) {
-  const [clientData, setClientData] = useRecoilState(clientsState.atom);
-  const client = useApolloClient();
-
-  useEffect(() => {
-    setClientData(clients);
-  }, []);
-
-  const refetchClients = async () => {
-    const { data } = await client.query<{ clients: Client[] }>({
-      query: GET_CLIENTS,
-    });
-
-    if (data && data.clients) {
-      setClientData(data.clients);
-    }
-  };
+  const [clientData] = useAppDataState(clientsState, clients);
 
   return (
     <>
@@ -49,11 +31,7 @@ export default function ClientsContainer({ clients }: ClientsContainerProps) {
         </thead>
         <tbody>
           {clientData.map((client) => (
-            <ClientRow
-              key={client.id}
-              client={client}
-              onClientDeleted={refetchClients}
-            />
+            <ClientRow key={client.id} client={client} />
           ))}
         </tbody>
       </table>
